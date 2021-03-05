@@ -4,11 +4,11 @@ OBJ_DIR	:= obj/
 BIN_DIR	:= bin/
 
 NAME	:= $(BIN_DIR)minishell
-SRC		:= $(wildcard $(SRC_DIR)*.c) $(wildcard $(SRC_DIR)*/*.c)
+SRC		:= $(wildcard $(SRC_DIR)*.c) $(wildcard $(SRC_DIR)*/*.c) srcs/main.c
 
 OBJ		:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-INC	:= $(INC_DIR)minishell.h $(INC_DIR)functions_minishell.h
+INC	:= $(INC_DIR)minishell.h $(INC_DIR)cmd_minishell.h
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -Werror
 INCLUDE	:= -Iinc -Ilibft/inc/
