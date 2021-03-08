@@ -4,7 +4,7 @@ OBJ_DIR	:= obj/
 BIN_DIR	:= bin/
 
 NAME	:= $(BIN_DIR)minishell
-SRC		:= $(wildcard $(SRC_DIR)*.c) $(wildcard $(SRC_DIR)*/*.c) srcs/main.c
+SRC		:= $(wildcard $(SRC_DIR)*.c) $(wildcard $(SRC_DIR)*/*.c)
 
 OBJ		:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -13,6 +13,8 @@ CC		:= gcc
 CFLAGS	:= -Wall -Wextra -Werror
 INCLUDE	:= -Iinc -Ilibft/inc/
 LDFLAGS	:= -Llibft/bin -lft
+# LDFLAGS	:= -Llibft/bin -lft  -g3 -fsanitize=address
+
 
 .PHONY: all clean fclean re
 .SILENT:

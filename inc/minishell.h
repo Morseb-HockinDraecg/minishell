@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "cmd_minishell.h"
-# include "libft.h"
+# include "get_next_line.h"
 
 typedef struct	s_cmd_line
 {
@@ -25,18 +25,24 @@ typedef struct	s_cmd_line
 
 typedef struct	s_shell
 {
-	t_list	*env;
-	char	*prompt;
-	t_list	*t_cmd_line;
+	t_list		*env;
+	char		*prompt;
+	t_cmd_line	cmd;
 }				t_shell;
 
 /*
 **	PARSING
 */
-int		parse_term(char *term_line);
+int		parse_term(t_shell *sh);
+void	parse_args(t_shell *sh, char **buf);
+
 
 
 // TO SORT
 void	exit_malloc_fail(void);
+void	init_sh(int argc, char **argv, char **env, t_shell *sh);
+void	trim_ws(char **line);
+void	del_fct(void *x);
+void	exec_cmd(t_shell *sh);
 
 #endif

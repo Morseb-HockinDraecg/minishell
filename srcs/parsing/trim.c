@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/05 12:25:14 by smorel            #+#    #+#             */
-/*   Updated: 2021/03/05 12:25:16 by smorel           ###   ########lyon.fr   */
+/*   Created: 2021/03/08 12:24:16 by smorel            #+#    #+#             */
+/*   Updated: 2021/03/08 12:24:17 by smorel           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
-void	exit_malloc_fail(void)
+void		trim_ws(char **line)
 {
-	exit(1);
+	while (ft_isspace(**line))
+		(*line)++;
 }

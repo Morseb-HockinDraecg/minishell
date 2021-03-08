@@ -12,37 +12,54 @@
 
 #include "cmd_minishell.h"
 
-int	ft_unset(void *a, void *b)
+int	ft_unset(t_list *env, void *b)
 {
 	printf("Ft_unset : to code\n");
 	return (SUCCESS);
-	(void)a;
+	(void)env;
 	(void)b;
 }
 
-int	ft_env(void *a, void *b)
+int	ft_env(t_list *env, void *b)
 {
-	printf("Ft_env : to code\n");
+	char	*s;
+	size_t	list_len;
+
+	list_len = ft_lstsize(env);
+	while (env)
+	{
+		s = env->content;
+		write(1, s, ft_strlen(s));
+		if (--list_len)
+			write(1, "\n", 1);
+		env = env->next;
+	}
 	return (SUCCESS);
-	(void)a;
 	(void)b;
 }
 
-int	ft_exit(void *a, void *b)
+int	ft_exit(t_list *env, void *b)
 {
+	printf("exit\n");
 	exit(0);
-	printf("Ft_exit : to code\n");
 	return (SUCCESS);
-	(void)a;
+	(void)env;
 	(void)b;
 }
 
-int	tabii(int a, void *x, void *y)
+int	ft_nomatch(t_list *env, void *str)
 {
-	int value;
-	int (*tab[7])(void *a, void *b);
+	printf("%s : command not found\n", str);
+	return (SUCCESS);
+	(void)env;
+}
 
+int	lst_cmd(int a, t_list *x, void *y)
+{
+	int	value;
+	int (*tab[8])(t_list *env, void *b);
 	value = -2;
+	tab[NO_MATCH] = ft_nomatch;
 	tab[ECHO] = ft_echo;
 	tab[CD] = ft_cd;
 	tab[PWD] = ft_pwd;
@@ -50,8 +67,6 @@ int	tabii(int a, void *x, void *y)
 	tab[UNSET] = ft_unset;
 	tab[ENV] = ft_env;
 	tab[EXIT] = ft_exit;
-	if (a > 7)
-		return (NO_MATCH);
 	value = (*tab[a])(x, y);
 	if (value == FAIL)
 		return (FAIL);

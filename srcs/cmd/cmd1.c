@@ -12,25 +12,25 @@
 
 #include "cmd_minishell.h"
 
-int	ft_echo(void *a, void *b)
+int	ft_echo(t_list *env, void *str)
 {
-	printf("Ft_echo : to code\n");
+	if (str)
+		write(1, str, ft_strlen(str));
 	return (SUCCESS);
-	(void)a;
-	(void)b;
+	(void)env;
 }
 
-int	ft_cd(void *a, void *b)
+int	ft_cd(t_list *env, void *b)
 {
 	printf("Ft_cd : to code, chdir\n");
 	return (SUCCESS);
-	(void)a;
+	(void)env;
 	(void)b;
 }
 
-int	ft_pwd(void *pwd, void *size)
+int	ft_pwd(t_list *env, void *pwd)
 {
-	(void)size;
+	(void)env;
 	getcwd(pwd, sizeof(pwd));
 	printf("Ft_pwd : %s\n", pwd);
 	if (!pwd)
@@ -38,10 +38,10 @@ int	ft_pwd(void *pwd, void *size)
 	return (SUCCESS);
 }
 
-int	ft_export(void *a, void *b)
+int	ft_export(t_list *env, void *b)
 {
 	printf("Ft_export : to code\n");
 	return (SUCCESS);
-	(void)a;
+	(void)env;
 	(void)b;
 }

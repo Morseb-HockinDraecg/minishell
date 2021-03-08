@@ -12,35 +12,16 @@
 
 #include "minishell.h"
 
-void	init_env(char **env, t_shell *sh)
-{
-	char	*env_var;
-	int		i;
-
-	i = 0;
-	while (env[++i])
-	{
-		env_var = (char *)malloc(sizeof(char *));
-		if (!env_var)
-			exit_malloc_fail();
-		env_var = env[i];
-		ft_lstadd_back(&sh->env, ft_lstnew(env_var));
-	}
-}
-
-void	init_sh(int argc, char **argv, char **env, t_shell *sh)
-{
-	(void)argc;
-	(void)argv;
-	sh->env = NULL;
-	init_env(env, sh);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*sh;
 
 	sh = (t_shell *)malloc(sizeof(t_shell));
 	init_sh(argc, argv, env, sh);
+	while (1)
+	{
+		parse_term(sh);
+		exec_cmd(sh);
+	}
 	return (0);
 }

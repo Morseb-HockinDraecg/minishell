@@ -18,41 +18,49 @@
 # undef _POSIX_SOURCE
 # include <stdio.h>
 # include <stdlib.h>
+# include "libft.h"
 
 enum	e_cmd
 {
-	ECHO,
+	NO_MATCH,
+	ENV,
 	CD,
 	PWD,
+	EXIT,
 	EXPORT,
 	UNSET,
-	ENV,
-	EXIT,
+	ECHO,
+};
+
+enum	e_ccmd
+{
+	CMD_ARG_1_MAX=4,
 };
 
 enum	e_valeur
 {
-	NO_MATCH = -1,
+	FAIL = - 1,
 	SUCCESS,
-	FAIL,
+	READING,
 };
 
 /*
 **  CMD1
 */
-int		ft_echo(void *a, void *b);
-int		ft_cd(void *a, void *b);
-int		ft_pwd(void *pwd, void *size);
-int		ft_export(void *a, void *b);
-int		ft_unset(void *a, void *b);
+int		ft_echo(t_list *env, void *b);
+int		ft_cd(t_list *env, void *b);
+int		ft_pwd(t_list *pwd, void *size);
+int		ft_export(t_list *env, void *b);
 
 /*
 **  CMD2
 */
 
-int		ft_env(void *a, void *b);
-int		ft_exit(void *a, void *b);
+int		ft_unset(t_list *env, void *b);
+int		ft_env(t_list *env, void *b);
+int		ft_exit(t_list *env, void *b);
+int		ft_nomatch(t_list *env, void *b);
 
-int		tabii(int a, void *x, void *y);
+int		lst_cmd(int a, t_list *x, void *y);
 
 #endif
