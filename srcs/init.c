@@ -42,4 +42,5 @@ void	init_sh(int argc, char **argv, char **env, t_shell *sh)
 	(void)argv;
 	init_env(env, sh);
 	init_cmd_line(sh);
+	sh->output = NULL;
 }

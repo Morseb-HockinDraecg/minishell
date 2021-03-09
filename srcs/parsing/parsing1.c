@@ -66,7 +66,7 @@ static void	take_cmd(t_shell *sh, char **buf)
 	sh->cmd.cmd = i;
 	if (!sh->cmd.cmd)
 		parse_args(sh, &ptr_cmd);
-	free(cmd);
+	del_fct(&cmd);
 }
 
 static int	sort_line(t_shell *sh, char *buf)
@@ -76,7 +76,7 @@ static int	sort_line(t_shell *sh, char *buf)
 	trim_ws(&buf);
 	take_cmd(sh, &buf);
 	trim_ws(&buf);
-	if (sh->cmd.cmd)
+	// if (sh->cmd.cmd)
 		parse_args(sh, &buf);
 	buf_len_to_handle = ft_strlen(buf);
 	if (!buf_len_to_handle)
@@ -98,7 +98,7 @@ int			parse_term(t_shell *sh)
 		if (ret < 0)
 			return (FAIL);
 		eol = sort_line(sh, buf);
-		free(buf);
+		del_fct(&buf);
 	}
 	return (0);
 }

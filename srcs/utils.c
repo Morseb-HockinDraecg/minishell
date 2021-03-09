@@ -1,9 +1,8 @@
 
 #include "minishell.h"
 
-
-void	del_fct(void *x)
+void	del_fct(char **x)
 {
-	free(x);
-	x = NULL;
+	free(*x);
+	*x = NULL;
 }

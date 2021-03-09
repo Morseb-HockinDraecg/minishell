@@ -10,27 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_minishell.h"
+#include "minishell.h"
 
-int	ft_echo(t_list *env, void *str)
+int	ft_echo(t_shell *sh, void *a)
 {
-	if (str)
-		write(1, str, ft_strlen(str));
+	t_list	*l;
+	char	*str;
+	char	*output;
+	size_t	len;
+
+	l = sh->cmd.arg;
+	while (l)
+	{
+		str = l->content;
+		len = ft_strlen(str);
+		output = (char *)malloc(len + 1);
+		ft_strlcpy(output, str, len + 1);
+		ft_lstadd_back(&sh->output, ft_lstnew(output));
+		// write(1, str, ft_strlen(str));
+		// write(1, " ", 1);
+		l = l->next;
+	}
+	// write(1, "\n", 1);
 	return (SUCCESS);
-	(void)env;
+	(void)a;
 }
 
-int	ft_cd(t_list *env, void *b)
+int	ft_cd(t_shell *sh, void *b)
 {
 	printf("Ft_cd : to code, chdir\n");
 	return (SUCCESS);
-	(void)env;
+	(void)sh;
 	(void)b;
 }
 
-int	ft_pwd(t_list *env, void *pwd)
+int	ft_pwd(t_shell *sh, void *pwd)
 {
-	(void)env;
+	(void)sh;
 	getcwd(pwd, sizeof(pwd));
 	printf("Ft_pwd : %s\n", pwd);
 	if (!pwd)
@@ -38,10 +54,10 @@ int	ft_pwd(t_list *env, void *pwd)
 	return (SUCCESS);
 }
 
-int	ft_export(t_list *env, void *b)
+int	ft_export(t_shell *sh, void *b)
 {
 	printf("Ft_export : to code\n");
 	return (SUCCESS);
-	(void)env;
+	(void)sh;
 	(void)b;
 }

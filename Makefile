@@ -8,7 +8,7 @@ SRC		:= $(wildcard $(SRC_DIR)*.c) $(wildcard $(SRC_DIR)*/*.c)
 
 OBJ		:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-INC	:= $(INC_DIR)minishell.h $(INC_DIR)cmd_minishell.h
+INC	:= $(INC_DIR)minishell.h
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -Werror
 INCLUDE	:= -Iinc -Ilibft/inc/
