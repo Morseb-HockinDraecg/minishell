@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-char			*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t len;
+	size_t	len;
 
 	if (c == '\0')
 		return ((char *)&s[ft_strlen(s)]);

@@ -16,11 +16,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}					t_list;
+}	t_list;
 
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
@@ -55,7 +55,7 @@ char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				**ft_split(char const *s, char c);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 void				*ft_calloc(size_t nmemb, size_t size);
-char				*ft_strnstr(const char *haystack, const char *needle,\
+char				*ft_strnstr(const char *haystack, const char *needle, \
 					size_t len);
 void				*ft_memalloc(size_t size);
 size_t				ft_intlen(int i);
@@ -68,7 +68,7 @@ int					ft_isspace(int c);
 
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstnew(const void *content);
-t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),\
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 					void (*del)(void *));
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_front(t_list **alst, t_list *new);

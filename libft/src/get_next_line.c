@@ -17,7 +17,8 @@ static char	*gnl_rea(char *ptr, int size)
 	char	*nptr;
 	int		i;
 
-	if (!(nptr = (char *)malloc(sizeof(char) * size)))
+	nptr = (char *)malloc(sizeof(char) * size);
+	if (!nptr)
 	{
 		gnl_free(&ptr);
 		return (NULL);
@@ -40,7 +41,8 @@ static int	check_kept(char *to_keep, char **line)
 	int		in_line;
 
 	kept = to_keep;
-	if (!(*line = gnl_rea(*line, glen(to_keep, '\n') + 1)))
+	*line = gnl_rea(*line, glen(to_keep, '\n') + 1);
+	if (!(*line))
 		return (-1);
 	tmp = *line;
 	in_line = 2;
@@ -61,16 +63,16 @@ static int	check_kept(char *to_keep, char **line)
 
 static int	clean_buf(char **buf, char **to_keep, char **line, int ret)
 {
-	char	*tmp;
-	char	*buffer;
-	int		in_line;
+	char			*tmp;
+	char			*buffer;
+	static int		in_line = 2;
 
 	if (ret < 1)
 		return (ret);
-	in_line = 2;
 	buffer = *buf;
-	if (!(*line = gnl_rea(*line, glen(*line, '\0') + ret + 1))
-			|| !(*to_keep = gnl_rea(*to_keep, glen(*to_keep, '\0') + ret + 1)))
+	*line = gnl_rea(*line, glen(*line, '\0') + ret + 1);
+	*to_keep = gnl_rea(*to_keep, glen(*to_keep, '\0') + ret + 1);
+	if (!(*line) || !(*to_keep))
 		return (-1);
 	tmp = &(*line)[glen(*line, '\0')];
 	while (ret--)
@@ -95,27 +97,31 @@ static int	gnl_algo(int in_line, int fd, char **to_keep, char **line)
 
 	while (in_line > 1)
 	{
-		if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+		buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (!(buf))
 			return (-1);
-		if ((ret = read(fd, buf, BUFFER_SIZE)) < 0)
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret < 0)
 			return (-1);
 		buf[ret] = '\0';
 		in_line = clean_buf(&buf, to_keep, line, ret);
 		gnl_free(&buf);
 	}
-	if (!(*line = gnl_rea(*line, glen(*line, '\0') + 1)))
+	*line = gnl_rea(*line, glen(*line, '\0') + 1);
+	if (!(*line))
 		return (-1);
 	return (in_line);
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*to_keep[4096];
 	int			in_line;
 
 	if (BUFFER_SIZE < 1 || !line || read(fd, to_keep, 0) < 0)
 		return (-1);
-	if (!(*line = (char *)malloc(sizeof(char) * 1)))
+	*line = (char *)malloc(sizeof(char) * 1);
+	if (!(*line))
 		return (-1);
 	**line = '\0';
 	in_line = 2;
@@ -123,7 +129,8 @@ int			get_next_line(int fd, char **line)
 		in_line = check_kept(to_keep[fd], line);
 	else
 	{
-		if (!(to_keep[fd] = (char *)malloc(sizeof(char) * 1)))
+		to_keep[fd] = (char *)malloc(sizeof(char) * 1);
+		if (!(to_keep[fd]))
 			return (-1);
 		*to_keep[fd] = '\0';
 	}

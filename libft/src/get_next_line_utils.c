@@ -12,9 +12,9 @@
 
 #include "get_next_line.h"
 
-int			glen(char *str, char c)
+int	glen(char *str, char c)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (str[len] != c && str[len])
@@ -22,7 +22,7 @@ int			glen(char *str, char c)
 	return (len);
 }
 
-void		gnl_free(char **str)
+void	gnl_free(char **str)
 {
 	free(*str);
 	*str = NULL;

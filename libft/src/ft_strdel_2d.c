@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char		**ft_strdel_2d(char **s, int i)
+char	**ft_strdel_2d(char **s, int i)
 {
 	while (i--)
 		free(s[i]);

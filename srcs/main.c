@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*sh;
-	char prompt[20];
+	char	prompt[20];
 
 	sh = (t_shell *)malloc(sizeof(t_shell));
 	init_sh(argc, argv, env, sh);

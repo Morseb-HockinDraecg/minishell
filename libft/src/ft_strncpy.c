@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-char			*ft_strncpy(char *dst, const char *src, size_t len)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	char *d;
+	char	*d;
 
 	d = dst;
 	while (len-- > 0)

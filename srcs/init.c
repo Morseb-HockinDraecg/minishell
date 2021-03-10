@@ -14,25 +14,21 @@
 
 static void	init_cmd_line(t_shell *sh)
 {
-	sh->cmd.cmd = -1;
-	sh->cmd.option_echo = 0;
-	sh->cmd.arg = NULL;
+	sh->cmd = NULL;
 }
 
 static void	init_env(char **env, t_shell *sh)
 {
-	char	*env_var;
+	char	**env_id_and_value;
 	int		i;
 
 	i = 0;
 	sh->env = NULL;
-	while (env[++i])
+	while (env[i])
 	{
-		env_var = (char *)malloc(sizeof(char *));
-		if (!env_var)
-			exit_malloc_fail();
-		env_var = env[i];
-		ft_lstadd_back(&sh->env, ft_lstnew(env_var));
+		env_id_and_value = ft_split(env[i], '=');
+		ft_lstadd_back(&sh->env, ft_lstnew(env_id_and_value));
+		i++;
 	}
 }
 

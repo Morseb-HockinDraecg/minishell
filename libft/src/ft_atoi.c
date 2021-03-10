@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int					ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
 	long long int	val;
 	int				signe;
@@ -20,7 +20,7 @@ int					ft_atoi(const char *nptr)
 	signe = 1;
 	val = 0;
 	while (*nptr == ' ' || *nptr == '\t' || *nptr == '\f' || *nptr == '\n' \
-			|| *nptr == '\r' || *nptr == '\v')
+		 || *nptr == '\r' || *nptr == '\v')
 		nptr++;
 	if (*nptr == '-' || *nptr == '+')
 	{

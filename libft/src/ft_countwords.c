@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int		ft_countwords(char const *s, char c)
+int	ft_countwords(char const *s, char c)
 {
-	int words;
+	int	words;
 
 	words = 0;
 	while (s && *s)

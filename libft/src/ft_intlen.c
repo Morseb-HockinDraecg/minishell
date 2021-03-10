@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-size_t			ft_intlen(int i)
+size_t	ft_intlen(int i)
 {
-	static size_t len;
+	static size_t	len;
 
 	len = 0;
 	if (i == -2147483648)

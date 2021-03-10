@@ -41,18 +41,18 @@ static int	cmp_cmd(char *cmd)
 	return (NO_MATCH);
 }
 
-static void	take_cmd(t_shell *sh, char **buf)
+static void	take_cmd(t_cmd_line *current_cmd, char **buf)
 {
-	int		i;
-	char	*cmd;
-	char	*ptr_cmd;
+	int			i;
+	char		*cmd;
+	char		*ptr_cmd;
 
 	i = 0;
 	cmd = (char *)malloc(sizeof(char) * ft_strlen(*buf) + 1);
 	ptr_cmd = cmd;
 	if (!cmd)
 	{
-		sh->cmd.cmd = FAIL;
+		current_cmd->cmd = FAIL;
 		exit_malloc_fail();
 		return ;
 	}
@@ -63,29 +63,33 @@ static void	take_cmd(t_shell *sh, char **buf)
 	}
 	cmd[i] = 0;
 	i = cmp_cmd(cmd);
-	sh->cmd.cmd = i;
-	if (!sh->cmd.cmd)
-		parse_args(sh, &ptr_cmd);
+	current_cmd->cmd = i;
+	if (!current_cmd->cmd)
+		parse_args(current_cmd, &ptr_cmd);
 	del_fct(&cmd);
 }
 
 static int	sort_line(t_shell *sh, char *buf)
 {
-	size_t	buf_len_to_handle;
+	size_t		buf_len_to_handle;
+	t_cmd_line	*cmd_line;
 
-	trim_ws(&buf);
-	take_cmd(sh, &buf);
-	trim_ws(&buf);
-	// if (sh->cmd.cmd)
-		parse_args(sh, &buf);
 	buf_len_to_handle = ft_strlen(buf);
-	if (!buf_len_to_handle)
-		return (SUCCESS);
-	else
-		return (READING);
+	while (buf_len_to_handle)
+	{
+		cmd_line = (t_cmd_line *)malloc(sizeof(t_cmd_line));
+		cmd_line->arg = NULL;
+		trim_ws(&buf);
+		take_cmd(cmd_line, &buf);
+		trim_ws(&buf);
+		parse_args(cmd_line, &buf);
+		ft_lstadd_back(&sh->cmd, ft_lstnew(cmd_line));
+		buf_len_to_handle = ft_strlen(buf);
+	}
+	return (SUCCESS);
 }
 
-int			parse_term(t_shell *sh)
+int	parse_term(t_shell *sh)
 {
 	int		ret;
 	int		eol;

@@ -22,7 +22,7 @@ int	ft_unset(t_shell *sh, void *b)
 
 int	ft_env(t_shell *sh, void *b)
 {
-	char	*s;
+	char	**s;
 	t_list	*env;
 	size_t	list_len;
 
@@ -31,8 +31,10 @@ int	ft_env(t_shell *sh, void *b)
 	while (env)
 	{
 		s = env->content;
-		write(1, s, ft_strlen(s));
-		if (--list_len)
+		write(1, s[0], ft_strlen(s[0]));
+		write(1, "=", 1);
+		write(1, s[1], ft_strlen(s[1]));
+		if (list_len)
 			write(1, "\n", 1);
 		env = env->next;
 	}
@@ -40,28 +42,34 @@ int	ft_env(t_shell *sh, void *b)
 	(void)b;
 }
 
-int	ft_exit(t_shell *sh, void *b)
+// voir condition de retout ..... exit 54 a =/= exit a 54 
+
+int	ft_exit(t_shell *sh, void *cmd)
 {
 	char	*str;
 
-	str = sh->cmd.arg->content;
+	str = NULL;
+	if (ft_lstsize(((t_cmd_line *)cmd)->arg))
+		str = ((t_cmd_line *)cmd)->arg->content;
 	write(1, "exit\n", 5);
-	if (sh->cmd.arg->next)
+	if (str && ((t_cmd_line *)cmd)->arg->next)
 		write(1, "exit: too many arguments\n", 25);
 	else
+	{
+		free_shell(sh);
 		exit(0);
-// voir condition de retout ..... exit 54 a =/= exit a 54 
-	(void)b;
+	}
 	return (SUCCESS);
+	(void)sh;
 }
 
-int	ft_nomatch(t_shell *sh, void *a)
+int	ft_nomatch(t_shell *sh, void *cmd)
 {
 	char	*str;
 
-	str = sh->cmd.arg->content;
+	str = ((t_cmd_line *)cmd)->arg->content;
 	write(1, str, ft_strlen(str));
 	write(1, " : command not found\n", 21);
 	return (SUCCESS);
-	(void)a;
+	(void)sh;
 }

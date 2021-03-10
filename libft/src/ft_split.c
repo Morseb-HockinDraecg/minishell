@@ -12,7 +12,14 @@
 
 #include "libft.h"
 
-static char		**stat_algo(char **split, char const *s, char c, int i)
+static void	normi_power(char **split, int i, int word_len, const char *word)
+{
+	split[i] = ft_substr(word, 0, word_len);
+	if (!split[i])
+		ft_strdel_2d(split, i);
+}
+
+static char	**stat_algo(char **split, char const *s, char c, int i)
 {
 	int			word_len;
 	char const	*word;
@@ -32,21 +39,21 @@ static char		**stat_algo(char **split, char const *s, char c, int i)
 			s++;
 		}
 		if (word_len)
-			if (!(split[i] = ft_substr(word, 0, word_len)))
-				return (ft_strdel_2d(split, i));
+			normi_power(split, i, word_len, word);
 		i++;
 	}
 	split[i] = NULL;
 	return (split);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	char **split;
+	char	**split;
 
 	if (!s)
 		return (NULL);
-	if (!(split = (char **)malloc(sizeof(char *) * (ft_countwords(s, c) + 1))))
+	split = (char **)malloc(sizeof(char *) * (ft_countwords(s, c) + 1));
+	if (!split)
 		return (NULL);
 	stat_algo(split, s, c, 0);
 	return (split);

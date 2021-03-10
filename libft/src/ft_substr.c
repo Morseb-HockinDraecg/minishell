@@ -12,11 +12,12 @@
 
 #include "libft.h"
 
-char			*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char *sub;
+	char	*sub;
 
-	if (!(sub = (char *)ft_memalloc(len + 1)) || !s)
+	sub = (char *)ft_memalloc(len + 1);
+	if (!(sub) || !s)
 		return (NULL);
 	if (start < ft_strlen(s))
 		return (ft_strncpy(sub, &s[start], len));

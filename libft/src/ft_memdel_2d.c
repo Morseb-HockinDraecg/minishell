@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void			**ft_memdel_2d(void **s, int i)
+void	**ft_memdel_2d(void **s, int i)
 {
 	while (i--)
 		free(s[i]);

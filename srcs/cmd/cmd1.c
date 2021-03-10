@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	ft_echo(t_shell *sh, void *a)
+int	ft_echo(t_shell *sh, void *cmd)
 {
 	t_list	*l;
 	char	*str;
 	char	*output;
 	size_t	len;
 
-	l = sh->cmd.arg;
+	l = ((t_cmd_line *)cmd)->arg;
 	while (l)
 	{
 		str = l->content;
@@ -27,13 +27,9 @@ int	ft_echo(t_shell *sh, void *a)
 		output = (char *)malloc(len + 1);
 		ft_strlcpy(output, str, len + 1);
 		ft_lstadd_back(&sh->output, ft_lstnew(output));
-		// write(1, str, ft_strlen(str));
-		// write(1, " ", 1);
 		l = l->next;
 	}
-	// write(1, "\n", 1);
 	return (SUCCESS);
-	(void)a;
 }
 
 int	ft_cd(t_shell *sh, void *b)

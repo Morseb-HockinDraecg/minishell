@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void		trim_ws(char **line)
+void	trim_ws(char **line)
 {
 	while (ft_isspace(**line))
 		(*line)++;
