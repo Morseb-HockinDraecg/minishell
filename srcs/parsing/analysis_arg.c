@@ -59,15 +59,15 @@ static int	analysis_quot_selector(t_shell *sh, char **buf, int ret)
 static int	analysis_without_quot(t_shell *sh, char **buf, int ret)
 {
 	sh->redir_id = is_redir(sh, buf);
-	if (is_bckslash(buf) == E_FAIL)
-		return (E_FAIL);
-	else if (sh->redir_id == E_FAIL)
+	if (sh->redir_id == E_FAIL)
 		return (E_FAIL);
 	else if (sh->redir_id != E_NO_MATCH)
 	{
 		if (analysis_redir(sh, buf, sh->redir_id) == E_FAIL)
 			return (E_FAIL);
 	}
+	else if (is_bckslash(buf) == E_FAIL)
+		return (E_FAIL);
 	else if (is_tild(buf, ret))
 		ret += analysis_tild(sh, buf, ret);
 	else if (**buf == '$' && ft_isdigit((*buf)[1]))
