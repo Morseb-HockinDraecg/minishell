@@ -12,19 +12,16 @@
 
 #include "minishell.h"
 
+// SIG_IGN	signal is ignored
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*sh;
-	char	prompt[20];
 
-	sh = (t_shell *)malloc(sizeof(t_shell));
+	sh = (t_shell *)msh_malloc(1, sizeof(t_shell));
 	init_sh(argc, argv, env, sh);
-	ft_strlcpy(prompt, "BASH de coin coin : ", 22);
+	signal(SIGINT, fc_cc);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
-	{
-		write(2, prompt, ft_strlen(prompt));
-		parse_term(sh);
-		exec_cmd(sh);
-	}
-	return (0);
+		get_line(sh);
+	return (sh->exit);
 }

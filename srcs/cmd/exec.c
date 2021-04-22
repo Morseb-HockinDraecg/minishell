@@ -1,49 +1,41 @@
 #include "minishell.h"
 
-static void	ft_test(t_shell *sh)
+static void	init_tab_funct(int (*arr[8])(t_shell *sh, void *b))
 {
-	t_list	*l;
-	char	*s;
-	int		l_len;
-
-	l = sh->output;
-	l_len = ft_lstsize(l);
-	while (l)
-	{
-		s = l->content;
-		write(1, s, ft_strlen(s));
-		if (--l_len)
-			write(1, " ", 1);
-		l = l->next;
-	}
-	ft_lstclear(&sh->output, free);
+	arr[E_NO_MATCH] = ft_nomatch;
+	arr[E_ECHO] = ft_echo;
+	arr[E_CD] = ft_cd;
+	arr[E_PWD] = ft_pwd;
+	arr[E_EXPORT] = ft_export;
+	arr[E_UNSET] = ft_unset;
+	arr[E_ENV] = ft_env;
+	arr[E_EXIT] = ft_exit;
 }
 
 int	exec_cmd(t_shell *sh)
 {
 	int			value;
-	int			(*tab[8])(t_shell *sh, void *b);
 	t_cmd_line	*current_cmd;
 	t_list		*cmd_list;
+	int			(*arr[8])(t_shell *sh, void *b);
 
 	cmd_list = sh->cmd;
 	value = -2;
-	tab[NO_MATCH] = ft_nomatch;
-	tab[ECHO] = ft_echo;
-	tab[CD] = ft_cd;
-	tab[PWD] = ft_pwd;
-	tab[EXPORT] = ft_export;
-	tab[UNSET] = ft_unset;
-	tab[ENV] = ft_env;
-	tab[EXIT] = ft_exit;
+	init_tab_funct(arr);
 	while (cmd_list)
 	{
 		current_cmd = cmd_list->content;
-		value = (*tab[current_cmd->cmd])(sh, current_cmd);
+		if (current_cmd->redir || current_cmd->redir_pipe)
+		{
+			if (current_cmd->redir_pipe)
+				magic_pipe(sh, &cmd_list, arr);
+			else if (current_cmd->redir)
+				redirections(sh, &cmd_list, arr);
+			continue ;
+		}
+		value = (*arr[current_cmd->cmd])(sh, current_cmd);
 		cmd_list = cmd_list->next;
 	}
-	ft_test(sh);
-	if (value == FAIL)
-		return (FAIL);
+	clear_lst_cmd(&sh->cmd);
 	return (value);
 }

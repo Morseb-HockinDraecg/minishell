@@ -12,19 +12,23 @@ INC	:= $(INC_DIR)minishell.h
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -Werror
 INCLUDE	:= -Iinc -Ilibft/inc/
-LDFLAGS	:= -Llibft/bin -lft
-# LDFLAGS	:= -Llibft/bin -lft  -g3 -fsanitize=address
+TERMCAP := -lncurses
+LDFLAGS	:= -Llibft/bin -lft $(TERMCAP)
+# LDFLAGS	:= -Llibft/bin -lft $(TERMCAP) -g3 -fsanitize=address
 
 
 .PHONY: all clean fclean re
 .SILENT:
 
-all: $(NAME)
-	$(info "./bin/minishell" rdy 2 use)
-	$(info --------------------------------------------)
+all: lib $(NAME)
+	echo "./bin/minishell \033[32mrdy 2 use\033[0m"
+	echo "--------------------------------------------"
+	echo ""
 
-$(NAME):  $(OBJ) | $(BIN_DIR)
+lib:
 	make -C libft
+
+$(NAME):  $(OBJ) libft/bin/libft.a | $(BIN_DIR)
 	$(CC) $(LDFLAGS) $^ -o $@
 	echo "$@ (exec) \033[32mcreated\033[0m"
 	echo "--------------------------------------------"

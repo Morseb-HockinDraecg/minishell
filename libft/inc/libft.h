@@ -39,7 +39,7 @@ char				*ft_strrchr(const char *s, int c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strdup(const char *s1);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
-int					ft_atoi(const char *nptr);
+long long int		ft_atoi(const char *nptr);
 char				*ft_itoa(int n);
 void				ft_bzero(void *s, size_t n);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
@@ -61,7 +61,7 @@ void				*ft_memalloc(size_t size);
 size_t				ft_intlen(int i);
 int					ft_countwords(char const *s, char c);
 void				**ft_memdel_2d(void **s, int i);
-char				**ft_strdel_2d(char **s, int i);
+char				**ft_strdel_2d(char **s);
 void				ft_memdel(void **ap);
 char				*ft_strncpy(char *dst, const char *src, size_t len);
 int					ft_isspace(int c);
@@ -76,5 +76,9 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void*));
 void				ft_lstclear(t_list **lst, void (*del)(void*));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
+
+char				*ft_str_tolower(char *s);
+int					str_alnum(char *str);
+int					ft_putchar(int c);
 
 #endif

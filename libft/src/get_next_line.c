@@ -63,12 +63,11 @@ static int	check_kept(char *to_keep, char **line)
 
 static int	clean_buf(char **buf, char **to_keep, char **line, int ret)
 {
-	char			*tmp;
-	char			*buffer;
-	static int		in_line = 2;
+	char	*tmp;
+	char	*buffer;
+	int		in_line;
 
-	if (ret < 1)
-		return (ret);
+	in_line = 2;
 	buffer = *buf;
 	*line = gnl_rea(*line, glen(*line, '\0') + ret + 1);
 	*to_keep = gnl_rea(*to_keep, glen(*to_keep, '\0') + ret + 1);
@@ -98,13 +97,16 @@ static int	gnl_algo(int in_line, int fd, char **to_keep, char **line)
 	while (in_line > 1)
 	{
 		buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!(buf))
+		if (!buf)
 			return (-1);
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret < 0)
 			return (-1);
 		buf[ret] = '\0';
-		in_line = clean_buf(&buf, to_keep, line, ret);
+		if (ret < 1)
+			in_line = ret;
+		else
+			in_line = clean_buf(&buf, to_keep, line, ret);
 		gnl_free(&buf);
 	}
 	*line = gnl_rea(*line, glen(*line, '\0') + 1);
@@ -130,7 +132,7 @@ int	get_next_line(int fd, char **line)
 	else
 	{
 		to_keep[fd] = (char *)malloc(sizeof(char) * 1);
-		if (!(to_keep[fd]))
+		if (!to_keep[fd])
 			return (-1);
 		*to_keep[fd] = '\0';
 	}

@@ -16,7 +16,7 @@ static void	normi_power(char **split, int i, int word_len, const char *word)
 {
 	split[i] = ft_substr(word, 0, word_len);
 	if (!split[i])
-		ft_strdel_2d(split, i);
+		ft_strdel_2d(split);
 }
 
 static char	**stat_algo(char **split, char const *s, char c, int i)

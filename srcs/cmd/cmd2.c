@@ -12,64 +12,88 @@
 
 #include "minishell.h"
 
-int	ft_unset(t_shell *sh, void *b)
+int	ft_pwd(t_shell *sh, void *a)
 {
-	printf("Ft_unset : to code\n");
-	return (SUCCESS);
-	(void)sh;
-	(void)b;
+	char	*output;
+
+	output = getcwd(NULL, 0);
+	write(STDOUT_FILENO, output, ft_strlen(output));
+	write(STDOUT_FILENO, "\n", 1);
+	return (ret_exit(sh, 0, E_SUCCESS));
+	(void)a;
 }
 
 int	ft_env(t_shell *sh, void *b)
 {
-	char	**s;
-	t_list	*env;
-	size_t	list_len;
+	int	i;
 
-	env = sh->env;
-	list_len = ft_lstsize(env);
-	while (env)
+	i = -1;
+	while (sh->env[++i])
 	{
-		s = env->content;
-		write(1, s[0], ft_strlen(s[0]));
-		write(1, "=", 1);
-		write(1, s[1], ft_strlen(s[1]));
-		if (list_len)
-			write(1, "\n", 1);
-		env = env->next;
+		if (!ft_strchr(sh->env[i], '='))
+			continue ;
+		write(STDOUT_FILENO, sh->env[i], ft_strlen(sh->env[i]));
+		write(STDOUT_FILENO, "\n", 1);
 	}
-	return (SUCCESS);
+	return (ret_exit(sh, 0, E_SUCCESS));
 	(void)b;
 }
 
-// voir condition de retout ..... exit 54 a =/= exit a 54 
-
-int	ft_exit(t_shell *sh, void *cmd)
+int	ft_echo(t_shell *sh, void *cm)
 {
-	char	*str;
+	t_cmd_line	*cmd;
+	int			i;
+	int			len;
 
-	str = NULL;
-	if (ft_lstsize(((t_cmd_line *)cmd)->arg))
-		str = ((t_cmd_line *)cmd)->arg->content;
-	write(1, "exit\n", 5);
-	if (str && ((t_cmd_line *)cmd)->arg->next)
-		write(1, "exit: too many arguments\n", 25);
-	else
+	cmd = cm;
+	len = -1;
+	while (cmd->args[++len])
+		;
+	i = 0;
+	if (len == 1 && !cmd->option_echo)
+		write(STDOUT_FILENO, "\n", 1);
+	while (cmd->args[++i])
 	{
-		free_shell(sh);
-		exit(0);
+		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i]));
+		if (--len > 1)
+			write(STDOUT_FILENO, " ", 1);
+		else if (!cmd->option_echo)
+			write(STDOUT_FILENO, "\n", 1);
 	}
-	return (SUCCESS);
-	(void)sh;
+	return (ret_exit(sh, 0, E_SUCCESS));
+}
+
+int	ft_cd(t_shell *sh, void *cmd)
+{
+	int		ret;
+	char	*val;
+
+	ft_set_oldpwd(sh, 1);
+	val = ((t_cmd_line *)cmd)->args[1];
+	if (val == NULL)
+		return (ft_cd_val_null(sh, val));
+	ret = 0;
+	if (chdir(val) == -1 && *val != 0)
+	{
+		write(STDERR_FILENO, val, ft_strlen(val));
+		write(STDERR_FILENO, ": No such file or directory\n", \
+		ft_strlen(": No such file or directory\n"));
+		ft_set_oldpwd(sh, 0);
+		ret = 1;
+	}
+	else
+		ft_set_pwd(sh, getcwd(NULL, 0));
+	if (((t_cmd_line *)cmd)->args[1] == NULL)
+		del_fct(&val);
+	return (ret_exit(sh, ret, E_SUCCESS));
 }
 
 int	ft_nomatch(t_shell *sh, void *cmd)
 {
-	char	*str;
+	int	code;
 
-	str = ((t_cmd_line *)cmd)->arg->content;
-	write(1, str, ft_strlen(str));
-	write(1, " : command not found\n", 21);
-	return (SUCCESS);
-	(void)sh;
+	code = test_cmd(sh, (t_cmd_line *)cmd, 1, 0);
+	signal(SIGINT, fc_cc);
+	signal(SIGQUIT, SIG_IGN);
+	return (ret_exit(sh, code, E_SUCCESS));
 }

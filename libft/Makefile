@@ -55,9 +55,12 @@ SRC		:= $(SRC_DIR)ft_atoi.c\
 	$(SRC_DIR)ft_strtrim.c\
 	$(SRC_DIR)ft_substr.c\
 	$(SRC_DIR)ft_tolower.c\
+	$(SRC_DIR)ft_str_tolower.c\
 	$(SRC_DIR)ft_toupper.c\
 	$(SRC_DIR)get_next_line.c\
-	$(SRC_DIR)get_next_line_utils.c
+	$(SRC_DIR)get_next_line_utils.c\
+	$(SRC_DIR)ft_str_alpha.c\
+	$(SRC_DIR)ft_putchar.c
 
 
 

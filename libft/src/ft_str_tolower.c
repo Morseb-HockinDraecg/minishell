@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trim.c                                             :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smorel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: smorel <smorel@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 12:24:16 by smorel            #+#    #+#             */
-/*   Updated: 2021/03/08 12:24:17 by smorel           ###   ########lyon.fr   */
+/*   Created: 2020/11/20 20:01:57 by smorel            #+#    #+#             */
+/*   Updated: 2020/11/25 03:38:52 by smorel           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "libft.h"
 
-void	trim_ws(char **line)
+char	*ft_str_tolower(char *s)
 {
-	while (ft_isspace(**line))
-		(*line)++;
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		s[i] = ft_tolower(s[i]);
+	s[i] = 0;
+	return (s);
 }

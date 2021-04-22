@@ -11,11 +11,20 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	**ft_strdel_2d(char **s, int i)
+char	**ft_strdel_2d(char **t)
 {
+	int	i;
+
+	i = -1;
+	while (t[++i])
+		;
 	while (i--)
-		free(s[i]);
-	free(s);
+	{
+		free(t[i]);
+		t[i] = NULL;
+	}
+	free(t);
 	return (NULL);
 }
