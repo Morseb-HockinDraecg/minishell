@@ -68,6 +68,7 @@ static int	termcap_pars_algo(t_shell *sh, char **term)
 	{
 		del_fct(term);
 		*term = (char *)ft_memalloc(1);
+		sh->t->position = 0;
 		g_lobal = 0;
 	}
 	if (ret == 4)
