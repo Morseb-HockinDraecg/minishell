@@ -2,11 +2,14 @@
 
 void	ft_bs(int sign)
 {
-	printf("^\\Quit: %d\n", sign);
+	sign += '0';
+	write(STDERR_FILENO, "Quit: ", ft_strlen("Quit: "));
+	write(STDERR_FILENO, &sign, sizeof(sign));
+	write(2, "\n", 1);
 }
 
 void	ft_c(int sign)
 {
-	write(STDIN_FILENO, "^C\n", 3);
+	write(STDERR_FILENO, "\n", 1);
 	(void)sign;
 }
