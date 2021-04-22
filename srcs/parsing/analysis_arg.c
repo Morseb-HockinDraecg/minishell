@@ -12,6 +12,7 @@ static int	analysis_bckslch(char **buf, int ret)
 
 static int	analysis_dquot(t_shell *sh, char **buf, int ret)
 {
+
 	if (**buf == 0)
 		return (E_FAIL);
 	if (**buf == '\\')
@@ -50,7 +51,11 @@ static int	analysis_quot_selector(t_shell *sh, char **buf, int ret)
 	{
 		(*buf)++;
 		while (**buf != '"')
+		{
+			if (**buf == 0)
+				return (E_FAIL);
 			ret = analysis_dquot(sh, buf, ret);
+		}
 		(*buf)++;
 	}
 	return (ret);
@@ -94,7 +99,9 @@ int	analysis_arg(t_shell *sh, char **buf)
 	while (**buf && **buf != ' ' && !is_sep(**buf))
 	{
 		if (is_quot(**buf))
+		{
 			ret = analysis_quot_selector(sh, buf, ret);
+		}
 		else
 		{
 			ret = analysis_without_quot(sh, buf, ret);
