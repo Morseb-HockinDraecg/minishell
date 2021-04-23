@@ -1,12 +1,5 @@
 #include <minishell.h>
 
-static	void	init_boolz(t_shell *sh)
-{
-	sh->redir_process_engaged = E_FALSE;
-	sh->env_does_not_exist = E_FALSE;
-	sh->pars_char = E_FALSE;
-}
-
 static	void	create_lst_arg(t_shell *sh, char **buf, int analysis_ret)
 {
 	char	*arg;
@@ -29,7 +22,9 @@ static	int	analysis_and_treatment(t_shell *sh, char **buf)
 {
 	int		analysis_ret;
 
-	init_boolz(sh);
+	sh->redir_process_engaged = E_FALSE;
+	sh->env_does_not_exist = E_FALSE;
+	sh->pars_char = E_FALSE;
 	*buf = trim_ws(*buf);
 	if (is_sep(**buf))
 		return (E_FAIL);
@@ -44,8 +39,7 @@ static	int	analysis_and_treatment(t_shell *sh, char **buf)
 
 static int	eol_fail(t_shell *sh)
 {
-	write(STDERR_FILENO, "\033[31;01mWrong Input !\033[00m\n", \
-	ft_strlen("\033[31;01mWrong Input !\033[00m\n"));
+	write(STDERR_FILENO, "syntax error\n", 13);
 	clear_lst_arg(&sh->lst_arg);
 	clear_lst_cmd(&sh->cmd);
 	clear_sh_redir(sh);

@@ -12,7 +12,6 @@ static int	analysis_bckslch(char **buf, int ret)
 
 static int	analysis_dquot(t_shell *sh, char **buf, int ret)
 {
-
 	if (**buf == 0)
 		return (E_FAIL);
 	if (**buf == '\\')

@@ -72,5 +72,4 @@ void	magic_pipe_loop(t_pipe *p, t_cmd_line **current_cmd, t_list ***cmd_list)
 	waitpid(p->pid1, NULL, 0);
 	**cmd_list = (**cmd_list)->next;
 	*current_cmd = (**cmd_list)->content;
-	fflush(NULL);
 }
